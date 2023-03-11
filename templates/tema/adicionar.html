@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <h1>Adicionar novo tema</h1>
+    <form method="post" action="/tema/adicionar">
+        Nome:<input type="text" name="nome" required placeholder="Introduza o nome do tema"><br>
+        <input type="submit" value="Adicionar">
+    </form>
+    {{ mensagem }}
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <form method="POST" action="/utilizador/apagar_confirmado">
+        <h2>Confirma que pretende apagar este utilizador?</h2>
+        <br>
+        {{ registo['nome'] }}
+        <input type="hidden" value="{{ registo['id'] }}" name="id">
+        <input type="submit" value="Apagar">
+        <a href="/utilizador/listar">Voltar</a>
+    </form>
+
+{% endblock %}

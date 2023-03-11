@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+
+   
+    <form method="post" action="/utilizador/registar" enctype="multipart/form-data">
+        Nome:<input class="form-control" type="text" name="nome" required placeholder="Introduza o seu nome" /><br>
+        Email:<input class="form-control" type="email" name="email" required placeholder="Introduza o seu email"><br>
+        Palavra Passe:<input class="form-control" type="password" name="palavra_passe"><br>
+        Fotografia de perfil:<input type="file" name="fotografia" class="form-control"><br>
+        <input class="btn btn-lg btn-danger" type="submit" value="Registar"><br>
+    </form>
+    {{ mensagem }}
+
+{% endblock %}

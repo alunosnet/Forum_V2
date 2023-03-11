@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <h1>Tem a certeza que pretende apagar esta mensagem?</h1>
+    <h2>{{ mensagem['texto'] }}</h2>
+    <a href="/forum">Voltar</a>
+    <form method="post" action="/mensagem/apagar_confirmado">
+        <input type="hidden" value="{{mensagem['id']}}" name="id">
+        
+        <input type="submit" value="Apagar resposta">
+    </form>
+    {{ erro }}
+
+  {% endblock %}

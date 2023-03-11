@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <form method="post" action="/tema/editar_confirmado">
+        <input type="hidden" name="id" value="{{ registo['id'] }}">
+        Nome:<input type="text" value="{{ registo['nome'] }}" name="nome" required placeholder="Introduza o nome do tema" /><br>
+        <input type="submit" value="Atualizar"><br>
+        <a href="/tema/listar">Voltar</a>
+    </form>
+    {{ mensagem }}
+
+{% endblock %}

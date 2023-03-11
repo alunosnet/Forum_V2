@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <h1>{{ mensagem['texto'] }}</h1>
+    <a href="/forum">Voltar</a>
+    <form method="post" action="/mensagem/guardar_resposta">
+        <input type="hidden" value="{{mensagem['id']}}" name="id_mensagem_original">
+        Mensagem: <input type="text" name="texto"><br>
+        Utilizador:
+        <select name="utilizador">
+            {% for utilizador in utilizadores %}
+                <option value="{{ utilizador['id'] }}">{{ utilizador['nome'] }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Enviar resposta">
+    </form>
+    {{ erro }}
+    <table>
+        <tr>
+            <th>Resposta</th>
+            <th>Utilizador</th>
+            <th>Data</th>
+            <th></th>
+        </tr>
+        {% for registo in registos %}
+        <tr>
+            <td>{{ registo["texto"] }}</td>
+            <td>{{ registo["id_utilizador"] }}</td>
+            <td>{{ registo["data_hora_mensagem"] }}</td>
+            <td>
+                <form method="post" action="/mensagem/apagar">
+                    <input type="hidden" name="id" value="{{ registo['id'] }}">
+                    <input type="submit" value="Apagar">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
