@@ -9,7 +9,7 @@
             <th>Email</th>
             <th>Estado</th>
             <th>Perfil</th>
-            <th colspan="2"></th>
+            <th colspan="3"></th>
         </tr>
         {% for registo in registos %}
         <tr>
@@ -21,17 +21,25 @@
             <td>
                 <form method="post" action="/utilizador/apagar">
                     <input type="hidden" name="id" value="{{ registo['id'] }}">
-                    <input type="submit" value="Apagar">
+                    <input type="submit" class="btn btn-info" value="Apagar">
                 </form>
             </td>
             <td>
                 <form method="post" action="/utilizador/editar">
                     <input type="hidden" name="id" value="{{ registo['id'] }}">
-                    <input type="submit" value="Editar">
+                    <input type="submit" class="btn btn-info" value="Editar">
+                </form>
+            </td>
+            <td>
+                <form method="post" action="/utilizador/enviar_email">
+                    <input type="hidden" name="email" value="{{ registo['email'] }}">
+                    <input type="submit" class="btn btn-danger" value="Enviar email">
                 </form>
             </td>
         </tr>
         {% endfor %}
     </table>
+
+    {{ mensagem }}
 
 {% endblock %}

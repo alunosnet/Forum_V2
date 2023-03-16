@@ -63,6 +63,14 @@
         {% endblock %}
 
       </div>
+      <footer>
+        {% if not request.cookies.get("aviso") %}
+          <form method="post" action="/aceitar_cookies">
+            Este site utiliza cookies.
+            <input type="submit" value="Aceitar"/>
+          </form>
+        {% endif %}
 
+      </footer>
 </body>
 </html>

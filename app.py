@@ -1,10 +1,11 @@
-from flask import Flask, render_template,request,redirect, session
+from flask import Flask, render_template,request,redirect, session, make_response
 from basedados import *
 import utilizador
 import tema
 import mensagem
 import os
 from flask_session import Session
+from flask_mail import Mail, Message
 
 #Criar a bd e as tabelas
 tabela_utilizador="create table if not exists utilizador(id integer primary key autoincrement, nome text, email text, palavra_passe text, estado integer, perfil integer)"  #0-admin 1-user
@@ -26,7 +27,38 @@ Session(app)
 UPLOAD_FOLDER=os.path.join(app.root_path,"static/imagens")
 app.config["UPLOAD_FOLDER"]=UPLOAD_FOLDER
 
+#configurar o email
+app.config['MAIL_SERVER']='sandbox.stmp.mailtrap.io'
+app.config['MAIL_PORT']=2525
+app.config['MAIL_USERNAME']='04924615981f0a'
+app.config['MAIL_PASSWORD']='8689d7936d9465'
+app.config['MAIL_USE_TLS']=True
+app.config['MAIL_USE_SSL']=False
+
+mail=Mail(app)
+
 #Rotas/urls do site
+#email
+@app.route('/utilizador/enviar_email',methods=["POST"])
+def enviar_email():
+    email_destino=request.form.get("email")
+    mensagem=Message("Este email é um aviso",
+                    sender='meu_email@gmail.com',
+                    recipients=[email_destino])
+    mensagem.body="""Olá caro utilizador, 
+                    este email é um aviso para o seu comportamento no
+                    fórum, se não alterar o modo como interage com os
+                    restantes utilizadores será banido."""
+    mail.send(mensagem)
+    return redirect("/utilizador/listar")
+
+#cookies
+@app.route('/aceitar_cookies',methods=["POST"])
+def aceitar_cookies():
+    resposta = make_response(render_template("index.html"))
+    resposta.set_cookie('aviso','aceitou')
+    return resposta
+
 @app.route('/')
 def index():
     return render_template('index.html')
