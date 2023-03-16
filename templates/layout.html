@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Fórum</a>
+          <a class="navbar-brand" href="/">Fórum</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -20,7 +20,7 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
-              {% if "email" not in session %}
+              {% if "email" not in session or session["email"]==None %}
               <li class="nav-item">
                 <a class="nav-link" href="/utilizador/registar">Registar</a>
               </li>
@@ -28,18 +28,26 @@
                 <a class="nav-link" href="/login">Login</a>
               </li>
               {% endif %}
-              {% if "email" in session %}
-              <li class="nav-item">
-                <a class="nav-link" href="/utilizador/listar">Lista de Utilizadores</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/tema/adicionar">Adicionar novo tema</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/tema/listar">Lista de temas</a>
-              </li>
+              {% if "email" in session and session["email"] != None %}
+                {% if session["perfil"]==0 %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="/utilizador/listar">Lista de Utilizadores</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/utilizador/criar">Criar Utilizador</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/tema/adicionar">Adicionar novo tema</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/tema/listar">Lista de temas</a>
+                  </li>
+                {% endif %}
               <li class="nav-item">
                 <a class="nav-link" href="/forum">Fórum</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
               </li>
               {% endif %}
             </ul>
@@ -48,6 +56,9 @@
         </div>
       </nav>
       <div class="container-fluid">
+        {% if session["email"] %}
+          Bem vindo {{ session["nome"] }}
+        {% endif %}
         {% block body%}
         {% endblock %}
 

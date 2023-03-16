@@ -6,6 +6,7 @@
         <br>
         {{ registo['nome'] }}
         <input type="hidden" value="{{ registo['id'] }}" name="id">
+        <input type="hidden" value="{{ registo['nome'] }}" name="nome">
         <input type="submit" value="Apagar">
         <a href="/utilizador/listar">Voltar</a>
     </form>

@@ -8,6 +8,7 @@
             <th>Nome</th>
             <th>Email</th>
             <th>Estado</th>
+            <th>Perfil</th>
             <th colspan="2"></th>
         </tr>
         {% for registo in registos %}
@@ -16,6 +17,7 @@
             <td>{{ registo["nome"] }}</td>
             <td>{{ registo["email"] }}</td>
             <td>{{ registo["estado"] }}</td>
+            <td>{{ registo["perfil"] }}</td>
             <td>
                 <form method="post" action="/utilizador/apagar">
                     <input type="hidden" name="id" value="{{ registo['id'] }}">

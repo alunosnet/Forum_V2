@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 {% block body %}
 
-    <form method="post" action="/utilizador/editar_confirmado">
-        <img src='/static/imagens/{{ registo["nome"] }}' width="200px"/>
+    <form method="post" action="/utilizador/editar_confirmado" enctype="multipart/form-data">
+        <img src='/static/imagens/{{ registo["nome"] }}' width="200px"/><br>
         <input type="hidden" name="id" value="{{ registo['id'] }}">
         Nome:<input type="text" value="{{ registo['nome'] }}" name="nome" required placeholder="Introduza o seu nome" /><br>
         Email:<input type="email" value="{{ registo['email'] }}" name="email" required placeholder="Introduza o seu email"><br>
-        Palavra Passe:<input type="password" name="palavra_passe"><br>
+        Palavra Passe:<input type="password" name="palavra_passe" required><br>
         Fotografia de perfil:<input type="file" name="fotografia" class="form-control"><br>
         <input type="submit" value="Atualizar"><br>
         <a href="/utilizador/listar">Voltar</a>
