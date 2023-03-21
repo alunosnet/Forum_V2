@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,redirect
+from flask import Flask, render_template,request,redirect, session
 from basedados import *
 from datetime import date
 
@@ -23,7 +23,7 @@ def mensagem_apagar_confirmado():
 def mensagem_guardar_resposta():
     id_mensagem_original=request.form.get("id_mensagem_original")
     texto = request.form.get("texto")
-    id_utilizador=request.form.get("utilizador")
+    id_utilizador=session["id"]
     #validar dados
     #guardar na bd
     sql = "INSERT INTO Mensagem(id_utilizador,texto,data_hora_mensagem,id_mensagem_original)VALUES(?,?,?,?)"
@@ -33,25 +33,30 @@ def mensagem_guardar_resposta():
     #mostrar as respostas à mensagem
     parametros = (id_mensagem_original,)
     texto = DevolverSQL("SELECT * FROM Mensagem WHERE id=?",parametros)
-    respostas = DevolverSQL("SELECT * FROM Mensagem WHERE id_mensagem_original=?",parametros)
-    utilizadores = DevolverSQL("SELECT id,nome FROM Utilizador ORDER BY Nome")
-    return render_template("mensagem/responder.html",mensagem=texto[0],registos=respostas,utilizadores=utilizadores)
+    #respostas = DevolverSQL("SELECT * FROM Mensagem WHERE id_mensagem_original=?",parametros)
+    respostas = DevolverSQL("""SELECT Mensagem.*,Utilizador.nome as nome FROM Mensagem 
+                            INNER JOIN Utilizador ON Utilizador.id=Mensagem.id_utilizador 
+                            WHERE id_mensagem_original=?""",parametros)
+    return render_template("mensagem/responder.html",mensagem=texto[0],registos=respostas)
 
 #Mostra as respostas de uma mensagem
 def mensagem_responder():
     id = request.form.get("id")
     parametros = (id,)
     texto = DevolverSQL("SELECT * FROM Mensagem WHERE id=?",parametros)
-    respostas = DevolverSQL("SELECT * FROM Mensagem WHERE id_mensagem_original=?",parametros)
-    utilizadores = DevolverSQL("SELECT id,nome FROM Utilizador ORDER BY Nome")
-    return render_template("mensagem/responder.html",mensagem=texto[0],registos=respostas,utilizadores=utilizadores)
+    #respostas = DevolverSQL("SELECT * FROM Mensagem WHERE id_mensagem_original=?",parametros)
+    respostas = DevolverSQL("""SELECT Mensagem.*,Utilizador.nome as nome FROM Mensagem 
+                            INNER JOIN Utilizador ON Utilizador.id=Mensagem.id_utilizador 
+                            WHERE id_mensagem_original=?""",parametros)
+    return render_template("mensagem/responder.html",mensagem=texto[0],registos=respostas)
 
 def mensagem_listar():
 
     if request.method=="POST":
         #recolher os dados da mensagem
         texto = request.form.get("texto")
-        id_utilizador = request.form.get("utilizador")
+        id_utilizador = session["id"]
+
         #validar os dados
         if texto and id_utilizador:
             #adicionar à tabela das mensagens

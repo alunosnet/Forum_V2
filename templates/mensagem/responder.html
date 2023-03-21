@@ -6,12 +6,7 @@
     <form method="post" action="/mensagem/guardar_resposta">
         <input type="hidden" value="{{mensagem['id']}}" name="id_mensagem_original">
         Mensagem: <input type="text" name="texto"><br>
-        Utilizador:
-        <select name="utilizador">
-            {% for utilizador in utilizadores %}
-                <option value="{{ utilizador['id'] }}">{{ utilizador['nome'] }}</option>
-            {% endfor %}
-        </select>
+       
         <br>
         <input type="submit" value="Enviar resposta">
     </form>
@@ -26,7 +21,7 @@
         {% for registo in registos %}
         <tr>
             <td>{{ registo["texto"] }}</td>
-            <td>{{ registo["id_utilizador"] }}</td>
+            <td>{{ registo["nome"] }}</td>
             <td>{{ registo["data_hora_mensagem"] }}</td>
             <td>
                 <form method="post" action="/mensagem/apagar">

@@ -28,12 +28,12 @@ UPLOAD_FOLDER=os.path.join(app.root_path,"static/imagens")
 app.config["UPLOAD_FOLDER"]=UPLOAD_FOLDER
 
 #configurar o email
-app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
-app.config['MAIL_PORT'] = 2525
-app.config['MAIL_USERNAME'] = '04924615981f0a'
-app.config['MAIL_PASSWORD'] = '8689d7936d9465'
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_SERVER']='sandbox.stmp.mailtrap.io'
+app.config['MAIL_PORT']=2525
+app.config['MAIL_USERNAME']='04924615981f0a'
+app.config['MAIL_PASSWORD']='8689d7936d9465'
+app.config['MAIL_USE_TLS']=True
+app.config['MAIL_USE_SSL']=False
 
 mail=Mail(app)
 
@@ -55,8 +55,9 @@ def enviar_email():
 #cookies
 @app.route('/aceitar_cookies',methods=["POST"])
 def aceitar_cookies():
-    resposta = make_response(render_template("index.html"))
-    resposta.set_cookie('aviso','aceitou')
+    resposta = make_response(redirect("/"))
+    #cookie com prazo de validade de 30 dias
+    resposta.set_cookie('aviso','aceitou',max_age=30*24*60*60)
     return resposta
 
 @app.route('/')
@@ -162,10 +163,10 @@ def tema_editar_confirmado():
 #Rotas do utilizador
 @app.route('/utilizador/criar',methods=["GET","POST"])
 def utilizador_criar():
-    if "perfil" not in session:
-        return redirect("/login")
-    if session["perfil"]!=0:
-        return redirect("/login")
+    #if "perfil" not in session:
+    #    return redirect("/login")
+    #if session["perfil"]!=0:
+    #    return redirect("/login")
     return utilizador.utilizador_criar(app)
 
 @app.route('/utilizador/registar',methods=["GET","POST"])
