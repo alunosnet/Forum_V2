@@ -70,10 +70,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session["id"]=None
-    session["nome"]=None
-    session["email"]=None
-    session["perfil"]=None
+    session.clear() #corrigido pela Raminhos ;)
     return redirect("/")
 
 #rotas da mensagem
@@ -81,16 +78,16 @@ def logout():
 def mensagem_apagar():
     if "perfil" not in session:
         return redirect("/login")
-    if session["perfil"]!=0:
-        return redirect("/login")
+    #if session["perfil"]!=0:
+    #    return redirect("/login")
     return mensagem.mensagem_apagar()
 
 @app.route("/mensagem/apagar_confirmado",methods=["POST"])
 def mensagem_apagar_confirmado():
     if "perfil" not in session:
         return redirect("/login")
-    if session["perfil"]!=0:
-        return redirect("/login")
+    #if session["perfil"]!=0:
+    #    return redirect("/login")
     return mensagem.mensagem_apagar_confirmado()
 
 @app.route("/mensagem/guardar_resposta",methods=["POST"])
@@ -163,10 +160,10 @@ def tema_editar_confirmado():
 #Rotas do utilizador
 @app.route('/utilizador/criar',methods=["GET","POST"])
 def utilizador_criar():
-    #if "perfil" not in session:
-    #    return redirect("/login")
-    #if session["perfil"]!=0:
-    #    return redirect("/login")
+    if "perfil" not in session:
+        return redirect("/login")
+    if session["perfil"]!=0:
+        return redirect("/login")
     return utilizador.utilizador_criar(app)
 
 @app.route('/utilizador/registar',methods=["GET","POST"])

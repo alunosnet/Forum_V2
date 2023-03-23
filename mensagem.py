@@ -37,6 +37,7 @@ def mensagem_guardar_resposta():
     respostas = DevolverSQL("""SELECT Mensagem.*,Utilizador.nome as nome FROM Mensagem 
                             INNER JOIN Utilizador ON Utilizador.id=Mensagem.id_utilizador 
                             WHERE id_mensagem_original=?""",parametros)
+    print (respostas)
     return render_template("mensagem/responder.html",mensagem=texto[0],registos=respostas)
 
 #Mostra as respostas de uma mensagem
@@ -70,7 +71,7 @@ def mensagem_listar():
     else:
         mensagem=""
     #consulta à bd para recolher todas as mensagens iniciais
-    sql = "SELECT * FROM Mensagem WHERE id_mensagem_original is null"
+    sql = "SELECT Mensagem.*,Utilizador.nome as nome FROM Mensagem INNER JOIN Utilizador ON Utilizador.id=Mensagem.id_utilizador where id_mensagem_original is null"
     #TODO: join para acrescentar o nome do utilizador
     utilizadores = DevolverSQL("SELECT id,nome FROM Utilizador ORDER BY nome")
     dados = DevolverSQL(sql)

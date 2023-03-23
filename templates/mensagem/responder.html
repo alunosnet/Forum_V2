@@ -11,7 +11,7 @@
         <input type="submit" value="Enviar resposta">
     </form>
     {{ erro }}
-    <table>
+    <table class="table">
         <tr>
             <th>Resposta</th>
             <th>Utilizador</th>
@@ -24,10 +24,12 @@
             <td>{{ registo["nome"] }}</td>
             <td>{{ registo["data_hora_mensagem"] }}</td>
             <td>
+                {% if session["perfil"]==0 or session["id"]==registo['id_utilizador'] %}
                 <form method="post" action="/mensagem/apagar">
                     <input type="hidden" name="id" value="{{ registo['id'] }}">
                     <input type="submit" value="Apagar">
                 </form>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
